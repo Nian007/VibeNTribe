@@ -6,6 +6,13 @@ import { Card } from '../ui/Card';
 import { DateRange } from '../../types';
 import { formatDateRange, isValidDateRange, getMinDate, getMaxDate } from '../../utils/dateUtils';
 
+interface NewDateRange {
+  startDate?: string;
+  endDate?: string;
+  destination?: string;
+  isFlexible?: boolean;
+}
+
 interface DateRangePickerProps {
   selectedDates: DateRange[];
   onDateChange: (dates: DateRange[]) => void;
@@ -18,7 +25,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> = ({
   maxSelections = 5,
 }) => {
   const [isAddingNew, setIsAddingNew] = useState(false);
-  const [newRange, setNewRange] = useState<Partial<DateRange>>({
+  const [newRange, setNewRange] = useState<NewDateRange>({
     isFlexible: false,
   });
 

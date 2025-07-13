@@ -17,7 +17,7 @@ import { Card } from '../ui/Card';
 import { LoadingSpinner } from '../ui/LoadingSpinner';
 import { useAuth } from '../../hooks/useAuth.tsx';
 import { ApiService } from '../../services/api';
-import { Match, User } from '../../types';
+import { Match } from '../../types';
 import { formatDateRange } from '../../utils/dateUtils';
 
 export const Dashboard: React.FC = () => {

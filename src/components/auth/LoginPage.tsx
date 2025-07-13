@@ -4,7 +4,6 @@ import { Plane, Users, Heart, MapPin, Linkedin } from 'lucide-react';
 import { Button } from '../ui/Button';
 import { Card } from '../ui/Card';
 import { LinkedInService } from '../../services/linkedin';
-import { config } from '../../config';
 
 export const LoginPage: React.FC = () => {
   const handleLinkedInLogin = () => {

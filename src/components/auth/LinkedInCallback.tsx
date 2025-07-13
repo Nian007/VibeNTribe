@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { CheckCircle, XCircle, Loader } from 'lucide-react';
+import { CheckCircle, XCircle } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth.tsx';
 import { LinkedInService } from '../../services/linkedin';
 import { LoadingSpinner } from '../ui/LoadingSpinner';
