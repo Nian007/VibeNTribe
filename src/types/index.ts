@@ -151,7 +151,6 @@ export interface WhatsAppResponse {
 export interface ButtonProps {
   variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
   size?: 'sm' | 'md' | 'lg';
-  isLoading?: boolean;
   disabled?: boolean;
   children: React.ReactNode;
   onClick?: () => void;
@@ -164,6 +163,7 @@ export interface CardProps {
   className?: string;
   variant?: 'default' | 'glass' | 'gradient';
   padding?: 'sm' | 'md' | 'lg';
+  onClick?: () => void;
 }
 
 // Error types

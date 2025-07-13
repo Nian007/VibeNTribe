@@ -8,6 +8,7 @@ export const Card: React.FC<CardProps> = ({
   className,
   variant = 'default',
   padding = 'md',
+  onClick,
   ...props
 }) => {
   const baseClasses = 'rounded-2xl transition-all duration-300';
@@ -30,12 +31,14 @@ export const Card: React.FC<CardProps> = ({
         baseClasses,
         variants[variant],
         paddings[padding],
+        onClick && 'cursor-pointer',
         className
       )}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
       whileHover={{ y: -2 }}
+      onClick={onClick}
       {...props}
     >
       {children}
