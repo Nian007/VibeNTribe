@@ -15,7 +15,7 @@ import {
 import { Button } from '../ui/Button';
 import { Card } from '../ui/Card';
 import { LoadingSpinner } from '../ui/LoadingSpinner';
-import { useAuth } from '../../hooks/useAuth';
+import { useAuth } from '../../hooks/useAuth.tsx';
 import { ApiService } from '../../services/api';
 import { Match, User } from '../../types';
 import { formatDateRange } from '../../utils/dateUtils';
