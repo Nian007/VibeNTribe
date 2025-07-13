@@ -1,0 +1,104 @@
+version: "3.9"
+
+services:
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./api:/app
+      - /app/node_modules # Prevents npm install from overwriting the bind mount
+    environment:
+      - NODE_ENV=development
+      - PORT=3001
+      - DATABASE_URL=postgres://user:password@db:5432/mydb
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - db
+      - redis
+    command: npm run dev # Or your preferred start command for development
+    restart: always
+
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"
+    volumes:
+      - ./client:/app
+      - /app/node_modules # Prevents npm install from overwriting the bind mount
+    depends_on:
+      - api
+    environment:
+      - NODE_ENV=development
+      - API_URL=http://api:3001
+    restart: always
+
+  db:
+    image: postgres:15-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=mydb
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql # Initialize the database
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: always
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: always
+
+  # Optional: Service for running tests (can be a separate profile)
+  api_tests:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    volumes:
+      - ./api:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=test
+      - DATABASE_URL=postgres://user:password@db:5432/mydb
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - db
+      - redis
+    command: npm test # Run tests
+
+  client_tests:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=test
+      - API_URL=http://api:3001
+    depends_on:
+      - api
+    command: npm test # Run tests
+
+volumes:
+  db_data:
+  redis_data:

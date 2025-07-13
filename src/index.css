@@ -1,113 +1,77 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+ 
 @layer base {
-  html {
-    font-family: 'Inter', system-ui, sans-serif;
+  :root {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+ 
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+ 
+    --primary: 258 100% 75%; /* #9E7FFF */
+    --primary-foreground: 240 5.9% 10%;
+ 
+    --secondary: 200 93% 61%; /* #38bdf8 */
+    --secondary-foreground: 240 5.9% 10%;
+ 
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 0 0% 63.9%;
+ 
+    --accent: 336 84% 67%; /* #f472b6 */
+    --accent-foreground: 240 5.9% 10%;
+ 
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 258 100% 75%;
+ 
+    --radius: 1rem; /* rounded */
   }
-  
-  h1, h2, h3, h4, h5, h6 {
-    font-family: 'Poppins', system-ui, sans-serif;
+ 
+  .dark {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+ 
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+ 
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+ 
+    --primary: 258 100% 75%;
+    --primary-foreground: 240 5.9% 10%;
+ 
+    --secondary: 200 93% 61%;
+    --secondary-foreground: 240 5.9% 10%;
+ 
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 0 0% 63.9%;
+ 
+    --accent: 336 84% 67%;
+    --accent-foreground: 240 5.9% 10%;
+ 
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+ 
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 258 100% 75%;
   }
 }
-
-@layer components {
-  .glass-card {
-    @apply bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl;
+ 
+@layer base {
+  * {
+    @apply border-border;
   }
-  
-  .gradient-text {
-    @apply bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent;
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
   }
-  
-  .btn-primary {
-    @apply bg-gradient-to-r from-primary-600 to-secondary-600 hover:from-primary-700 hover:to-secondary-700 text-white font-semibold py-3 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-xl;
-  }
-  
-  .btn-secondary {
-    @apply bg-white/10 backdrop-blur-md border border-white/20 text-white font-semibold py-3 px-8 rounded-xl transition-all duration-300 hover:bg-white/20 hover:scale-105;
-  }
-  
-  .input-field {
-    @apply w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 transition-all duration-200 bg-white/50 backdrop-blur-sm;
-  }
-}
-
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
-}
-
-/* Smooth animations */
-* {
-  scroll-behavior: smooth;
-}
-
-/* Loading animation */
-.loading-dots {
-  display: inline-block;
-  position: relative;
-  width: 80px;
-  height: 80px;
-}
-
-.loading-dots div {
-  position: absolute;
-  top: 33px;
-  width: 13px;
-  height: 13px;
-  border-radius: 50%;
-  background: #667eea;
-  animation-timing-function: cubic-bezier(0, 1, 1, 0);
-}
-
-.loading-dots div:nth-child(1) {
-  left: 8px;
-  animation: loading-dots1 0.6s infinite;
-}
-
-.loading-dots div:nth-child(2) {
-  left: 8px;
-  animation: loading-dots2 0.6s infinite;
-}
-
-.loading-dots div:nth-child(3) {
-  left: 32px;
-  animation: loading-dots2 0.6s infinite;
-}
-
-.loading-dots div:nth-child(4) {
-  left: 56px;
-  animation: loading-dots3 0.6s infinite;
-}
-
-@keyframes loading-dots1 {
-  0% { transform: scale(0); }
-  100% { transform: scale(1); }
-}
-
-@keyframes loading-dots3 {
-  0% { transform: scale(1); }
-  100% { transform: scale(0); }
-}
-
-@keyframes loading-dots2 {
-  0% { transform: translate(0, 0); }
-  100% { transform: translate(24px, 0); }
 }

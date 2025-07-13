@@ -1,20 +1,17 @@
-import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider, useAuth } from './hooks/useAuth';
-import { LoginPage } from './components/auth/LoginPage';
-import { LinkedInCallback } from './components/auth/LinkedInCallback';
-import { OnboardingPage } from './components/onboarding/OnboardingPage';
-import { Dashboard } from './components/dashboard/Dashboard';
-import { LoadingSpinner } from './components/ui/LoadingSpinner';
+import { OnboardingPage } from '@/pages/OnboardingPage';
+import { useAuth } from '@/hooks/useAuth';
+import { LoginPage } from '@/pages/LoginPage';
+import { Dashboard } from '@/pages/Dashboard';
+import { HomePage } from '@/pages/HomePage';
 
-// Protected Route Component
-const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
   const { isAuthenticated, isLoading } = useAuth();
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-primary-600 via-secondary-600 to-primary-800 flex items-center justify-center">
-        <LoadingSpinner size="lg" color="white" />
+      <div className="flex items-center justify-center h-screen bg-background">
+        <p className="text-textSecondary">Loading session...</p>
       </div>
     );
   }
@@ -23,80 +20,22 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) =
     return <Navigate to="/login" replace />;
   }
 
-  return <>{children}</>;
+  return children;
 };
 
-// Guest Route Component (redirect if authenticated)
-const GuestRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { isAuthenticated, isLoading } = useAuth();
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-primary-600 via-secondary-600 to-primary-800 flex items-center justify-center">
-        <LoadingSpinner size="lg" color="white" />
-      </div>
-    );
-  }
-
-  if (isAuthenticated) {
-    return <Navigate to="/dashboard" replace />;
-  }
-
-  return <>{children}</>;
-};
-
-// Onboarding Route Component
-const OnboardingRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { user, isAuthenticated, isLoading } = useAuth();
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-primary-600 via-secondary-600 to-primary-800 flex items-center justify-center">
-        <LoadingSpinner size="lg" color="white" />
-      </div>
-    );
-  }
-
-  if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
-  }
-
-  // If user is already onboarded, redirect to dashboard
-  if (user?.isOnboarded) {
-    return <Navigate to="/dashboard" replace />;
-  }
-
-  return <>{children}</>;
-};
-
-// App Routes Component
-const AppRoutes: React.FC = () => {
+const AppRoutes = () => {
   return (
     <Routes>
-      {/* Public Routes */}
-      <Route 
-        path="/login" 
-        element={
-          <GuestRoute>
-            <LoginPage />
-          </GuestRoute>
-        } 
-      />
-      
-      {/* LinkedIn OAuth Callback */}
-      <Route path="/auth/linkedin/callback" element={<LinkedInCallback />} />
-      
-      {/* Onboarding Route */}
+      <Route path="/" element={<HomePage />} />
+      <Route path="/login" element={<LoginPage />} />
       <Route 
         path="/onboarding" 
         element={
-          <OnboardingRoute>
+          <ProtectedRoute>
             <OnboardingPage />
-          </OnboardingRoute>
+          </ProtectedRoute>
         } 
       />
-      
-      {/* Protected Routes */}
       <Route 
         path="/dashboard" 
         element={
@@ -105,27 +44,16 @@ const AppRoutes: React.FC = () => {
           </ProtectedRoute>
         } 
       />
-      
-      {/* Default Route */}
-      <Route path="/" element={<Navigate to="/login" replace />} />
-      
-      {/* Catch all route */}
-      <Route path="*" element={<Navigate to="/login" replace />} />
     </Routes>
   );
 };
 
-// Main App Component
-const App: React.FC = () => {
+export default function App() {
   return (
-    <AuthProvider>
-      <Router>
-        <div className="App">
-          <AppRoutes />
-        </div>
-      </Router>
-    </AuthProvider>
+    <Router>
+      <div className="bg-background text-foreground min-h-screen font-sans">
+        <AppRoutes />
+      </div>
+    </Router>
   );
-};
-
-export default App;
+}
