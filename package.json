@@ -1,20 +1,22 @@
 {
+  "name": "vibentribe",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "vite",
+    "server": "node server/src/server.js",
+    "server:dev": "nodemon server/src/server.js"
+  },
   "dependencies": {
-    "@tailwindcss/forms": "^0.5.10",
-    "@types/js-cookie": "^3.0.6",
-    "@types/react": "^19.1.8",
-    "@types/react-datepicker": "^6.2.0",
-    "@types/react-dom": "^19.1.6",
-    "autoprefixer": "^10.4.21",
-    "axios": "^1.10.0",
-    "clsx": "^2.1.1",
-    "date-fns": "^4.1.0",
-    "framer-motion": "^12.23.3",
-    "js-cookie": "^3.0.5",
-    "lucide-react": "^0.525.0",
-    "postcss": "^8.5.6",
-    "react-datepicker": "^8.4.0",
-    "tailwind-merge": "^3.3.1",
-    "tailwindcss": "^4.1.11"
+    "@supabase/supabase-js": "^2.50.5",
+    "axios": "^1.6.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.6.1",
+    "express": "^4.21.2",
+    "express-session": "^1.18.1",
+    "mysql2": "^3.6.2",
+    "twilio": "^4.21.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
   }
 }
