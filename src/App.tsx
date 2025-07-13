@@ -1,9 +1,11 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { useEffect } from 'react';
 import { OnboardingPage } from '@/pages/OnboardingPage';
 import { useAuth } from '@/hooks/useAuth';
 import { LoginPage } from '@/pages/LoginPage';
 import { Dashboard } from '@/pages/Dashboard';
 import { HomePage } from '@/pages/HomePage';
+import { LinkedInCallback } from '@/components/auth/LinkedInCallback';
 
 const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
   const { isAuthenticated, isLoading } = useAuth();
@@ -24,10 +26,21 @@ const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
 };
 
 const AppRoutes = () => {
+  useEffect(() => {
+    // Add error boundary for debugging
+    const handleError = (event: ErrorEvent) => {
+      console.error('Global error:', event.error);
+    };
+    
+    window.addEventListener('error', handleError);
+    return () => window.removeEventListener('error', handleError);
+  }, []);
+
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
       <Route path="/login" element={<LoginPage />} />
+      <Route path="/auth/linkedin/callback" element={<LinkedInCallback />} />
       <Route 
         path="/onboarding" 
         element={

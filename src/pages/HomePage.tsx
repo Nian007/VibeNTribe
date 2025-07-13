@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import { Header } from '@/components/layout/Header';
 import { HeroSection } from '@/components/homepage/HeroSection';
@@ -11,8 +12,12 @@ import { RegistrationModal } from '@/components/ui/RegistrationModal';
 
 export const HomePage = () => {
   const [isModalOpen, setModalOpen] = useState(false);
+  const navigate = useNavigate();
 
-  const openModal = () => setModalOpen(true);
+  const openModal = () => {
+    // For now, redirect directly to login instead of showing modal
+    navigate('/login');
+  };
   const closeModal = () => setModalOpen(false);
 
   return (
