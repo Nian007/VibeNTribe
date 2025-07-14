@@ -4,23 +4,58 @@ import { Chrome } from 'lucide-react';
 
 export const LoginPage = () => {
   const handleLogin = async () => {
-    // In a real app, this would be supabase.auth.signInWithOAuth({ provider: 'linkedin' })
-    // For this demo, we'll simulate a login with a test user.
-    const email = `testuser-${Date.now()}@example.com`;
-    const password = 'password123';
+    // Use a fixed test user for demo purposes
+    const email = 'demo@vibeandtribe.com';
+    const password = 'demopassword123';
     
-    const { data, error } = await supabase.auth.signUp({ email, password });
+    try {
+      // First try to sign in with existing user
+      const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({ 
+        email, 
+        password 
+      });
 
-    if (error) {
-      console.error('Error signing up test user:', error);
-      // Attempt to sign in if sign up fails (user might exist)
-      const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
-      if (signInError) {
-        console.error('Error signing in test user:', signInError);
-        alert('Could not log in test user.');
+      if (signInError && signInError.message === 'Invalid login credentials') {
+        // If user doesn't exist, create them first
+        const { data: signUpData, error: signUpError } = await supabase.auth.signUp({ 
+          email, 
+          password,
+          options: {
+            emailRedirectTo: undefined // Disable email confirmation for demo
+          }
+        });
+
+        if (signUpError) {
+          console.error('Error creating demo user:', signUpError);
+          alert('Could not create demo user. Please check your Supabase configuration.');
+          return;
+        }
+
+        // If signup was successful but user needs confirmation, try signing in anyway
+        if (signUpData.user && !signUpData.session) {
+          const { error: retrySignInError } = await supabase.auth.signInWithPassword({ 
+            email, 
+            password 
+          });
+          
+          if (retrySignInError) {
+            console.error('Demo user created but could not sign in:', retrySignInError);
+            alert('Demo user created but email confirmation may be required. Please check your Supabase settings to disable email confirmation for development.');
+            return;
+          }
+        }
+
+        console.log('Demo user created and logged in successfully');
+      } else if (signInError) {
+        console.error('Unexpected sign in error:', signInError);
+        alert('Could not sign in demo user: ' + signInError.message);
+        return;
+      } else {
+        console.log('Demo user signed in successfully:', signInData.user);
       }
-    } else {
-      console.log('Test user created and logged in:', data.user);
+    } catch (error) {
+      console.error('Unexpected error during login:', error);
+      alert('An unexpected error occurred during login.');
     }
   };
 
@@ -38,6 +73,10 @@ export const LoginPage = () => {
             <Chrome className="mr-2 h-4 w-4" />
             Login with LinkedIn (Demo)
           </Button>
+          <div className="text-xs text-muted-foreground text-center">
+            <p>Demo credentials: demo@vibeandtribe.com</p>
+            <p>Note: If login fails, please disable email confirmation in your Supabase project settings</p>
+          </div>
         </div>
       </div>
       <div className="hidden bg-muted lg:block">
