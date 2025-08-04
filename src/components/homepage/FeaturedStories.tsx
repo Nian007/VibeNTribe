@@ -1,88 +1,141 @@
 import { motion } from 'framer-motion';
-import { Heart, MessageSquare } from 'lucide-react';
+import { Card, CardContent } from '@/components/ui/Card';
 
 const stories = [
   {
     id: 1,
-    title: "Solo Backpacking Through the Andes",
-    author: "Alex Johnson",
-    image: "https://images.pexels.com/photos/3889854/pexels-photo-3889854.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    likes: 1200,
-    comments: 89,
+    title: 'Finding My Tribe in Bali',
+    excerpt: 'How I connected with fellow digital nomads and found my community in the heart of Ubud.',
+    author: 'Sarah Johnson',
+    authorImage: 'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+    image: 'https://images.pexels.com/photos/3225531/pexels-photo-3225531.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+    date: 'Oct 12, 2023',
+    category: 'Solo Travel',
   },
   {
     id: 2,
-    title: "A Culinary Journey in Marrakesh",
-    author: "Samira Khan",
-    image: "https://images.pexels.com/photos/2404370/pexels-photo-2404370.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    likes: 2300,
-    comments: 154,
+    title: 'Backpacking Europe: The Ultimate Group Adventure',
+    excerpt: 'Six strangers became lifelong friends during our three-month journey across 12 European countries.',
+    author: 'Michael Chen',
+    authorImage: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+    image: 'https://images.pexels.com/photos/2662116/pexels-photo-2662116.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+    date: 'Sep 28, 2023',
+    category: 'Group Travel',
   },
   {
     id: 3,
-    title: "Finding Paradise in the Philippines",
-    author: "Chris Lee",
-    image: "https://images.pexels.com/photos/307008/pexels-photo-307008.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    likes: 1800,
-    comments: 112,
+    title: 'From Strangers to Business Partners',
+    excerpt: 'We met on a surf trip in Costa Rica and now run an eco-tourism company together.',
+    author: 'Elena Rodriguez',
+    authorImage: 'https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+    image: 'https://images.pexels.com/photos/1974521/pexels-photo-1974521.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+    date: 'Aug 15, 2023',
+    category: 'Adventure',
   },
 ];
 
-const cardVariants = {
-  hidden: { opacity: 0, y: 50 },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: {
-      delay: i * 0.1,
-      duration: 0.5,
-      ease: 'easeOut'
-    },
-  }),
-};
-
 export const FeaturedStories = () => {
   return (
-    <section id="stories" className="py-20 sm:py-32 bg-surface">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-white">Featured Travel Stories</h2>
-          <p className="mt-4 max-w-2xl mx-auto text-lg text-textSecondary">Get inspired by adventures from our growing community.</p>
-        </div>
+    <section id="stories" className="py-24 bg-background">
+      <div className="container px-4 mx-auto">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-16"
+        >
+          <h2 className="text-4xl font-bold text-white mb-4">Featured Stories</h2>
+          <p className="text-xl text-textSecondary max-w-2xl mx-auto">
+            Real connections, real adventures. Discover how travelers found their tribe and created unforgettable memories.
+          </p>
+        </motion.div>
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {stories.map((story, i) => (
+          {stories.map((story, index) => (
             <motion.div
               key={story.id}
-              className="bg-background rounded-lg overflow-hidden shadow-lg group cursor-pointer"
-              onClick={() => alert(`Navigate to story: "${story.title}"`)}
-              custom={i}
-              variants={cardVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.3 }}
-              whileHover={{ y: -8, transition: { duration: 0.2 } }}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
             >
-              <div className="relative">
-                <img src={story.image} alt={story.title} className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-105" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
-                <div className="absolute bottom-0 left-0 p-6">
-                  <h3 className="text-2xl font-bold text-white">{story.title}</h3>
-                  <p className="text-sm text-slate-300">by {story.author}</p>
+              <Card className="overflow-hidden h-full hover:shadow-xl transition-shadow duration-300 group">
+                <div className="relative h-64 overflow-hidden">
+                  <img 
+                    src={story.image} 
+                    alt={story.title} 
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+                  <div className="absolute bottom-4 left-4 flex items-center">
+                    <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-white">
+                      <img 
+                        src={story.authorImage} 
+                        alt={story.author} 
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div className="ml-2">
+                      <p className="text-white text-sm font-medium">{story.author}</p>
+                      <p className="text-white/70 text-xs">{story.date}</p>
+                    </div>
+                  </div>
+                  <div className="absolute top-4 right-4">
+                    <span className="px-3 py-1 bg-primary/90 text-white text-xs font-medium rounded-full">
+                      {story.category}
+                    </span>
+                  </div>
                 </div>
-              </div>
-              <div className="p-6 flex justify-end items-center space-x-4 text-textSecondary">
-                <div className="flex items-center space-x-1">
-                  <Heart className="w-5 h-5" />
-                  <span>{story.likes}</span>
-                </div>
-                <div className="flex items-center space-x-1">
-                  <MessageSquare className="w-5 h-5" />
-                  <span>{story.comments}</span>
-                </div>
-              </div>
+                <CardContent className="p-6">
+                  <h3 className="text-xl font-bold text-white mb-2 group-hover:text-primary transition-colors">
+                    {story.title}
+                  </h3>
+                  <p className="text-textSecondary mb-4">{story.excerpt}</p>
+                  <a 
+                    href="#" 
+                    className="inline-flex items-center text-primary font-medium hover:underline"
+                  >
+                    Read full story
+                    <svg 
+                      xmlns="http://www.w3.org/2000/svg" 
+                      className="h-4 w-4 ml-1 transition-transform group-hover:translate-x-1" 
+                      fill="none" 
+                      viewBox="0 0 24 24" 
+                      stroke="currentColor"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </a>
+                </CardContent>
+              </Card>
             </motion.div>
           ))}
         </div>
+
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="text-center mt-12"
+        >
+          <a 
+            href="#" 
+            className="inline-flex items-center text-primary font-medium text-lg hover:underline"
+          >
+            View all stories
+            <svg 
+              xmlns="http://www.w3.org/2000/svg" 
+              className="h-5 w-5 ml-1" 
+              fill="none" 
+              viewBox="0 0 24 24" 
+              stroke="currentColor"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </a>
+        </motion.div>
       </div>
     </section>
   );
